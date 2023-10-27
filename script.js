@@ -26,6 +26,8 @@ const months = [
   "December",
 ];
 
+toggleMenu();
+
 function toggleMenu() {
   leftContainer.style.width =
     leftContainer.style.width === "100%" ? "50%" : "100%";
