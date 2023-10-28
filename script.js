@@ -1,4 +1,5 @@
 const calendar = document.querySelector(".calendar"),
+  container = document.querySelector(".container"),
   date = document.querySelector(".date"),
   daysContainer = document.querySelector(".days"),
   prev = document.querySelector(".prev"),
@@ -10,6 +11,17 @@ let today = new Date();
 let activeDay;
 let month = today.getMonth();
 let year = today.getFullYear();
+
+document.addEventListener("click", (e) => {
+  let clickedElem = e.target;
+  do {
+    if (clickedElem == container) {
+      return;
+    }
+    clickedElem = clickedElem.parentNode;
+  } while (clickedElem);
+  closeMenu();
+});
 
 const months = [
   "January",
@@ -32,7 +44,15 @@ function toggleMenu() {
   leftContainer.style.width =
     leftContainer.style.width === "100%" ? "50%" : "100%";
   rightContainer.style.visibility =
-    rightContainer.style.visibility === "collapse" ? "visible" : "collapse";
+    rightContainer.style.visibility === "hidden" ? "visible" : "hidden";
+}
+
+function closeMenu() {
+  if (leftContainer.style.width == "50%") {
+    leftContainer.style.width = "100%";
+  }
+  // leftContainer.style.width =
+  //   leftContainer.style.width === "50%" ? "100%" : "50%";
 }
 
 function initCalendar() {
