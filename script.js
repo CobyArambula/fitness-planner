@@ -10,17 +10,6 @@ let activeDay;
 let month = today.getMonth();
 let year = today.getFullYear();
 
-document.addEventListener("click", (e) => {
-  let clickedElem = e.target;
-  do {
-    if (clickedElem == container) {
-      return;
-    }
-    clickedElem = clickedElem.parentNode;
-  } while (clickedElem);
-  closeMenu();
-});
-
 const months = [
   "January",
   "February",
