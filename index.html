@@ -42,11 +42,6 @@
       </div>
     </nav>
     <div class="container">
-      <div class="menu-text">
-        <i class="fa-solid fa-xmark"></i>
-        <div class="activity">No activity data</div>
-        <div class="plan">Plan activity</div>
-      </div>
       <div class="left">
         <div class="calendar">
           <div class="month">
@@ -64,11 +59,48 @@
               <div>fri</div>
               <div>sat</div>
             </div>
-            <div class="days" onclick="toggleMenu()"></div>
+            <div
+              class="days"
+              data-bs-toggle="modal"
+              data-bs-target="#activityModal"
+            ></div>
+            <div
+              class="modal fade"
+              id="activityModal"
+              tabindex="=1"
+              aria-labelledby="activityModal"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+              >
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5">Placeholder Date</h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="activity">
+                      <img src="/assets/other.png" class="activity-icon" />
+                      <div class="title">Title</div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-success">
+                      New Activity
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="right"></div>
     </div>
 
     <script src="script.js"></script>

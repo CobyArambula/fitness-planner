@@ -3,9 +3,7 @@ const calendar = document.querySelector(".calendar"),
   date = document.querySelector(".date"),
   daysContainer = document.querySelector(".days"),
   prev = document.querySelector(".prev"),
-  next = document.querySelector(".next"),
-  leftContainer = document.querySelector(".left"),
-  rightContainer = document.querySelector(".right");
+  next = document.querySelector(".next");
 
 let today = new Date();
 let activeDay;
@@ -37,23 +35,6 @@ const months = [
   "November",
   "December",
 ];
-
-toggleMenu();
-
-function toggleMenu() {
-  leftContainer.style.width =
-    leftContainer.style.width === "100%" ? "50%" : "100%";
-  rightContainer.style.visibility =
-    rightContainer.style.visibility === "hidden" ? "visible" : "hidden";
-}
-
-function closeMenu() {
-  if (leftContainer.style.width == "50%") {
-    leftContainer.style.width = "100%";
-  }
-  // leftContainer.style.width =
-  //   leftContainer.style.width === "50%" ? "100%" : "50%";
-}
 
 function initCalendar() {
   const firstDay = new Date(year, month, 1);
@@ -117,4 +98,9 @@ function nextMonth() {
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
 
+function loadActivityData() {}
+
+let activities = "";
+
 initCalendar();
+initSampleActivity();
