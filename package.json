@@ -1,0 +1,22 @@
+{
+  "name": "fitness-planner",
+  "version": "1.0.0",
+  "description": "An application which interfaces between the user's Apple Fitness data and an interactive planner, accessing data stored in DynamoDB",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CobyArambula/fitness-planner.git"
+  },
+  "author": "Coby Arambula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CobyArambula/fitness-planner/issues"
+  },
+  "homepage": "https://github.com/CobyArambula/fitness-planner#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.441.0"
+  }
+}
