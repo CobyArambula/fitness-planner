@@ -3,7 +3,9 @@ const calendar = document.querySelector(".calendar"),
   date = document.querySelector(".date"),
   daysContainer = document.querySelector(".days"),
   prev = document.querySelector(".prev"),
-  next = document.querySelector(".next");
+  next = document.querySelector(".next"),
+  monthClass = document.querySelector(".month"),
+  weekdaysDaysContainer = document.querySelector(".weekdays-days-container");
 
 let today = new Date();
 let activeDay;
@@ -43,7 +45,7 @@ function initCalendar() {
     days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
   }
 
-  // curent month days
+  // current month days
   for (let i = 1; i <= lastDate; i++) {
     // if day is today add class today
     if (
@@ -83,6 +85,23 @@ function nextMonth() {
   initCalendar();
 }
 
+async function fetchData() {
+  try {
+    const response = await fetch("http://localhost:3000/getDynamoData");
+    const data = await response.json();
+    const dataContainer = document.getElementById(".container");
+    dataContainer.innerHTML = `<h2>Data from DynamoDB:</h2>`;
+
+    data.forEach((item) => {
+      dataContainer.innerHTML += `<p>${JSON.stringify(item)}</p>`;
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+fetchData();
+
 // add event listener on prev and next
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
@@ -92,4 +111,3 @@ function loadActivityData() {}
 let activities = "";
 
 initCalendar();
-initSampleActivity();
