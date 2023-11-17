@@ -7,6 +7,9 @@ const calendar = document.querySelector(".calendar"),
   monthClass = document.querySelector(".month"),
   weekdaysDaysContainer = document.querySelector(".weekdays-days-container");
 
+let activities = new Array();
+let activityDates = [[]];
+let data;
 let today = new Date();
 let activeDay;
 let month = today.getMonth();
@@ -27,20 +30,22 @@ const months = [
   "December",
 ];
 
-function initCalendar() {
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const prevLastDay = new Date(year, month, 0);
-  const prevDays = prevLastDay.getDate();
-  const lastDate = lastDay.getDate();
-  const day = firstDay.getDay();
-  const nextDays = 7 - lastDay.getDay() - 1;
+function initCalendar(activityDates) {
+  const firstDay = new Date(year, month, 1); // First date of current month as Date object
+  const lastDay = new Date(year, month + 1, 0); // Last date of current month as Date object
+  const prevLastDay = new Date(year, month, 0); // Last date of prev month as Date object
+  const prevDays = prevLastDay.getDate(); // Last date of prev month as number
+  const lastDate = lastDay.getDate(); // Last date of current month
+  const day = firstDay.getDay(); // How many days in the prev month to display
+  const nextDays = 7 - lastDay.getDay() - 1; // How many days in the next month to display
 
   date.innerHTML = months[month] + " " + year;
 
+  // if day contains event, then day should get event class, and corresponding event data should be attached
   let days = "";
 
   // for previous days
+  // TODO: add logic for if prev day = activity day
   for (let x = day; x > 0; x--) {
     days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
   }
@@ -53,7 +58,7 @@ function initCalendar() {
       year === new Date().getFullYear() &&
       month === new Date().getMonth()
     ) {
-      days += `<div class="day today"> ${i}</div>`;
+      days += `<div class="day today event"> ${i}</div>`;
     } else {
       days += `<div class="day"> ${i}</div>`;
     }
@@ -85,29 +90,40 @@ function nextMonth() {
   initCalendar();
 }
 
-async function fetchData() {
+// add event listener on prev and next
+prev.addEventListener("click", prevMonth);
+next.addEventListener("click", nextMonth);
+
+// Call server to retrieve items from DynamoDB table and push them in activities array
+async function loadActivityData() {
   try {
     const response = await fetch("http://localhost:3000/getDynamoData");
-    const data = await response.json();
-    const dataContainer = document.getElementById(".container");
-    dataContainer.innerHTML = `<h2>Data from DynamoDB:</h2>`;
-
+    data = await response.json();
     data.forEach((item) => {
-      dataContainer.innerHTML += `<p>${JSON.stringify(item)}</p>`;
+      activities.push(item);
     });
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-fetchData();
+// Need to parse days from activity array
+// if activityArrayDate == day, add active class to day
+function getActivityDates() {
+  activities.forEach((activity) => {
+    const activityString = activity.Id;
+    // Uses a regex and capturing groups to extract year, month, and day
+    const regex = /(\d{4})-(\d{2})-(\d{2})/;
+    const match = regex.exec(activityString);
+    const year = match[1];
+    const month = match[2];
+    const day = match[3];
+    const activityDate = new Date(year, month, day);
+    activityDates.push(activityDate);
+  });
+}
 
-// add event listener on prev and next
-prev.addEventListener("click", prevMonth);
-next.addEventListener("click", nextMonth);
-
-function loadActivityData() {}
-
-let activities = "";
-
-initCalendar();
+loadActivityData().then(() => {
+  getActivityDates();
+  initCalendar(activityDates);
+});
