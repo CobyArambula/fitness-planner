@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FitnessPlanner.js</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.svg" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -41,53 +42,32 @@
         </div>
       </div>
     </nav>
-    <div class="container">
-      <div class="container-container">
-        <div class="calendar">
-          <div class="month">
-            <i class="fa fa-angle-left prev"></i>
-            <div class="date"></div>
-            <i class="fa fa-angle-right next"></i>
-          </div>
-          <div class="weekdays-days-container">
-            <div class="weekdays">
-              <div>sun</div>
-              <div>mon</div>
-              <div>tue</div>
-              <div>wed</div>
-              <div>thu</div>
-              <div>fri</div>
-              <div>sat</div>
+
+    <!-- Start Calendar View -->
+    <div class="calendar-view">
+      <div class="container">
+        <div class="container-container">
+          <div class="calendar">
+            <div class="month">
+              <i class="fa fa-angle-left prev"></i>
+              <div class="date"></div>
+              <i class="fa fa-angle-right next"></i>
             </div>
-            <div
-              class="days"
-              data-bs-toggle="modal"
-              data-bs-target="#activityModal"
-            ></div>
+            <div class="weekdays-days-container">
+              <div class="weekdays">
+                <div>sun</div>
+                <div>mon</div>
+                <div>tue</div>
+                <div>wed</div>
+                <div>thu</div>
+                <div>fri</div>
+                <div>sat</div>
+              </div>
 
-            <div
-              class="modal fade"
-              id="activityModal"
-              tabindex="=1"
-              aria-labelledby="activityModal"
-              aria-hidden="true"
-            >
-              <div
-                class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-              >
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <img src="/assets/other.png" class="activity-icon" />
-                    <h1 class="modal-title fs-5">Title - Placeholder Date</h1>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
+              <div class="days"></div>
+            </div>
 
-                  <table class="table text-center table-striped">
+            <!-- <table class="table text-center table-striped">
                     <thead>
                       <tr>
                         <th>Distance</th>
@@ -128,14 +108,126 @@
                         <td>*elevation*</td>
                       </tr>
                     </tbody>
-                  </table>
-                </div>
+                  </table> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Default View -->
+
+    <!-- Start Activity View -->
+    <div class="activity-view">
+      <div class="container">
+        <div class="container-container">
+          <div class="calendar">
+            <div class="activity-container">
+              <i class="fa-solid fa-arrow-left" onclick="viewCalendar()"></i>
+
+              <div class="plan-side">
+                <h1 class="display-5">Planned Activities</h1>
+                <p>There are no planned activities.</p>
+                <button class="btn btn-success" onclick="viewAddActivity()">
+                  Add Activity
+                </button>
+              </div>
+
+              <div class="vr"></div>
+              <div class="activity-side">
+                <h1 class="display-5">Recorded Activities</h1>
+                <p>Activities recorded on Apple Watch will appear here.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- End Activity View -->
+
+    <!-- Start Add Activity View -->
+    <div class="add-activity-view">
+      <div class="container">
+        <div class="container-container">
+          <div class="calendar">
+            <div class="activity-container">
+              <i class="fa-solid fa-arrow-left" onclick="viewActivity()"></i>
+              <div class="add-activity-container">
+                <h1 class="display-5">Add Activity</h1>
+                <form
+                  class="row g-3"
+                  style="margin-bottom: 5%"
+                  id="addActivityForm"
+                >
+                  <div class="col-mb-3">
+                    <label for="activitySelection" class="form-label"
+                      >Activity Type</label
+                    >
+                    <select class="form-select" id="activitySelection" required>
+                      <option selected disabled value="">Choose...</option>
+                      <option value="Cooldown">Cooldown</option>
+                      <option value="Core Training">Core Training</option>
+                      <option value="Cycle">Cycle</option>
+                      <option value="Dance">Dance</option>
+                      <option value="Elliptical">Elliptical</option>
+                      <option value="Functional Strength Training">
+                        Functional Strength Training
+                      </option>
+                      <option value="HIIT">HIIT</option>
+                      <option value="Hiking">Hiking</option>
+                      <option value="Kickboxing">Kickboxing</option>
+                      <option value="Multisport">Multisport</option>
+                      <option value="Other">Other</option>
+                      <option value="Pilates">Pilates</option>
+                      <option value="Rower">Rower</option>
+                      <option value="Run">Run</option>
+                      <option value="Stair Stepper">Stair Stepper</option>
+                      <option value="Swimming">Swimming</option>
+                      <option value="Tai Chi">Tai Chi</option>
+                      <option value="Walk">Walk</option>
+                      <option value="Wheelchair">Wheelchair</option>
+                      <option value="Yoga">Yoga</option>
+                    </select>
+                  </div>
+
+                  <div class="col-mb-3">
+                    <label for="startTimeSelection" class="form-label"
+                      >Start Time</label
+                    >
+                    <input
+                      type="time"
+                      class="form-control"
+                      id="startTimeSelection"
+                      aria-describedby="basic-addon1"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-mb-3">
+                    <label for="endTimeSelection" class="form-label"
+                      >End Time</label
+                    >
+                    <input
+                      type="time"
+                      class="form-control"
+                      id="endTimeSelection"
+                      aria-describedby="basic-addon1"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <button class="btn btn-success" type="submit">
+                      Add Activity
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Add Activity View -->
 
     <script src="script.js"></script>
   </body>

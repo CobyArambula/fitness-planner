@@ -196,3 +196,71 @@ body {
   margin: auto;
   width: 100%;
 }
+
+/* The default view. Display attribute is toggled when user clicks on a date. Default is */
+.calendar-view {
+  display: block;
+}
+
+/* The display attribute of this class is toggled when user clicks on a date. Default is none. */
+.activity-view {
+  display: none;
+}
+
+/* Container used for when date is clicked on  */
+.activity-container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Back arrow visible in Activity View */
+.fa-arrow-left {
+  transition: font-size 0.5s ease;
+  position: absolute;
+  margin: 15px;
+  font-size: 12pt;
+}
+
+.fa-arrow-left:hover {
+  font-size: 16pt;
+}
+
+/* Plan side is the left side of the screen when you click on a day
+This side allows the user to view activities they've planned and add a
+new planned activity. If there are no planned activities, a message will 
+display describing such */
+.plan-side {
+  margin-top: 1.5%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Activity side is the right side of the screen when you click on a day  
+This side allows the user to view activities recorded from their Apple Watch 
+If there are no activities recorded, a message will display describing such */
+.activity-side {
+  flex: 1;
+  margin: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Visible when user chooses to add a new activity */
+.add-activity-view {
+  display: none;
+}
+
+/* Controls the items within the add activity screen */
+.add-activity-container {
+  margin-top: 5%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

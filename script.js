@@ -5,7 +5,15 @@ const calendar = document.querySelector(".calendar"),
   prev = document.querySelector(".prev"),
   next = document.querySelector(".next"),
   monthClass = document.querySelector(".month"),
-  weekdaysDaysContainer = document.querySelector(".weekdays-days-container");
+  weekdaysDaysContainer = document.querySelector(".weekdays-days-container"),
+  calendarView = document.querySelector(".calendar-view"),
+  activityView = document.querySelector(".activity-view"),
+  addActivityView = document.querySelector(".add-activity-view"),
+  addActivityForm = document.getElementById("addActivityForm");
+
+const storedActivities = localStorage.getItem("plannedActivities");
+
+console.log(storedActivities);
 
 let activities = new Array();
 let activityDates = [[]];
@@ -45,7 +53,6 @@ function initCalendar(activityDates) {
   let days = "";
 
   // for previous days
-  // TODO: add logic for if prev day = activity day
   for (let x = day; x > 0; x--) {
     days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
   }
@@ -58,9 +65,13 @@ function initCalendar(activityDates) {
       year === new Date().getFullYear() &&
       month === new Date().getMonth()
     ) {
-      days += `<div class="day today event"> ${i}</div>`;
+      days += `<div class="day today" onclick="viewActivity(${i}, ${
+        month + 1
+      })">${i}</div>`;
     } else {
-      days += `<div class="day"> ${i}</div>`;
+      days += `<div class="day"  onclick="viewActivity(${i}, ${
+        month + 1
+      })">${i}</div>`;
     }
   }
 
@@ -127,3 +138,57 @@ loadActivityData().then(() => {
   getActivityDates();
   initCalendar(activityDates);
 });
+
+// Navigates from the calendar view to the activity view for the selected date
+function viewActivity(selectedDate, selectedMonth) {
+  calendarView.style.display = "none";
+  activityView.style.display = "block";
+  if ((addActivityView.style.display = "block")) {
+    addActivityView.style.display = "none";
+  }
+  console.log(selectedDate, selectedMonth);
+}
+
+// Navigates from the activity view to the calendar view
+function viewCalendar() {
+  calendarView.style.display = "block";
+  activityView.style.display = "none";
+}
+
+// Navigates from the activity view to the add activity view
+function viewAddActivity() {
+  activityView.style.display = "none";
+  addActivityView.style.display = "block";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  addActivityForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    // Access form fields and log the data
+    const activityType = document.getElementById("activitySelection").value;
+    const startTime = document.getElementById("startTimeSelection").value;
+    const endTime = document.getElementById("endTimeSelection").value;
+    const date =
+      // Log the form data to the console
+      console.log("Activity Type:", activityType);
+    console.log("Start Time:", startTime);
+    console.log("End Time:", endTime);
+
+    const plannedActivities = getPlannedActivitiesFromStorage();
+    plannedActivities.push({
+      activityType: activityType,
+      startTime: startTime,
+      endTime: endTime,
+    });
+    savePlannedActivitiesToStorage(plannedActivities);
+  });
+});
+
+function getPlannedActivitiesFromStorage() {
+  const storedActivities = localStorage.getItem("plannedActivities");
+  return storedActivities ? JSON.parse(storedActivities) : [];
+}
+
+function savePlannedActivitiesToStorage(plannedActivities) {
+  localStorage.setItem("plannedActivities", JSON.stringify(plannedActivities));
+}
