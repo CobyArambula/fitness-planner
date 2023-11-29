@@ -1,5 +1,5 @@
 :root {
-  --primary-clr: rgb(138, 142, 221);
+  --primary-clr: #8a8edd;
 }
 
 * {
@@ -240,6 +240,7 @@ display describing such */
   justify-content: center;
   align-items: center;
   text-align: center;
+  overflow: auto;
 }
 
 .plan-side h1 {
@@ -279,4 +280,49 @@ If there are no activities recorded, a message will display describing such */
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.planned-activity-container {
+  display: block;
+  height: 65%;
+  width: 90%;
+  border: 5px solid #f5f5f5;
+  background-color: #f5f5f5;
+  border-radius: 3%;
+  margin-top: 20%;
+  overflow: scroll;
+}
+
+/* For each one of the planned activities that the user created */
+.planned-activity-item {
+  border: 5px solid #fff;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  min-width: 80%;
+  max-height: 15%;
+  margin: 2%;
+}
+
+.planned-activity-item img {
+  width: 15%;
+  height: auto;
+  margin-left: 4.5%;
+  align-self: center;
+}
+
+.planned-activity-item div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #878895;
+  width: 100%;
+  margin-top: 3.5%;
+  margin-right: 9%;
+  white-space: pre-wrap;
+}
+
+.planned-activity-item p {
 }

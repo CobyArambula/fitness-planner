@@ -122,19 +122,34 @@
           <div class="calendar">
             <div class="activity-container">
               <i class="fa-solid fa-arrow-left" onclick="viewCalendar()"></i>
-
               <div class="plan-side">
                 <h1 class="display-5">Planned Activities</h1>
-                <!-- <p>There are no planned activities.</p>
-                <button class="btn btn-success" onclick="viewAddActivity()">
+                <!-- <p>There are no planned activities.</p> -->
+                <!-- <button class="btn btn-success" onclick="viewAddActivity()">
                   Add Activity
                 </button> -->
-                
-                  <thead>
-                    
+                <!-- </table> -->
 
-                  </thead>
-                </table>
+                <div class="planned-activity-container">
+                  <!-- Planned Activity Template -->
+                  <div class="planned-activity-item">
+                    <img src="/assets/functional-strength-training.png" />
+                    <div>
+                      <p>Title&#10;Start Time - End Time</p>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  class="btn btn-success"
+                  onclick="viewAddActivity()"
+                  style="margin-top: 5%"
+                >
+                  Add Activity
+                </button>
+
+                <!-- End Planned Activity Template -->
+                <thead></thead>
               </div>
               <div class="vr"></div>
               <div class="activity-side">
