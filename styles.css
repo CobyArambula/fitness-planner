@@ -25,6 +25,7 @@ body {
   display: flex;
   border-radius: 12px;
   background-color: #373c4f;
+  min-height: 660px;
 }
 
 .container-container {
@@ -211,6 +212,7 @@ body {
 .activity-container {
   display: flex;
   flex-direction: row;
+  min-height: 619.5px;
 }
 
 /* Back arrow visible in Activity View */
@@ -223,6 +225,7 @@ body {
 
 .fa-arrow-left:hover {
   font-size: 16pt;
+  cursor: pointer;
 }
 
 /* Plan side is the left side of the screen when you click on a day
@@ -236,6 +239,12 @@ display describing such */
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+
+.plan-side h1 {
+  position: absolute;
+  top: 8%;
 }
 
 /* Activity side is the right side of the screen when you click on a day  
@@ -248,6 +257,13 @@ If there are no activities recorded, a message will display describing such */
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.activity-side h1 {
+  position: absolute;
+  top: 8%;
 }
 
 /* Visible when user chooses to add a new activity */

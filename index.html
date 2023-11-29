@@ -31,7 +31,7 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">FitnessPlanner.js</a>
+        <a class="navbar-brand" href="">FitnessPlanner.js</a>
         <div class="left-buttons">
           <button class="btn btn-outline-success me-2" type="button">
             Sync
@@ -49,9 +49,9 @@
         <div class="container-container">
           <div class="calendar">
             <div class="month">
-              <i class="fa fa-angle-left prev"></i>
+              <i class="fa fa-angle-left prev" style="cursor: pointer"></i>
               <div class="date"></div>
-              <i class="fa fa-angle-right next"></i>
+              <i class="fa fa-angle-right next" style="cursor: pointer"></i>
             </div>
             <div class="weekdays-days-container">
               <div class="weekdays">
@@ -125,12 +125,17 @@
 
               <div class="plan-side">
                 <h1 class="display-5">Planned Activities</h1>
-                <p>There are no planned activities.</p>
+                <!-- <p>There are no planned activities.</p>
                 <button class="btn btn-success" onclick="viewAddActivity()">
                   Add Activity
-                </button>
-              </div>
+                </button> -->
+                
+                  <thead>
+                    
 
+                  </thead>
+                </table>
+              </div>
               <div class="vr"></div>
               <div class="activity-side">
                 <h1 class="display-5">Recorded Activities</h1>
@@ -216,7 +221,11 @@
                   </div>
 
                   <div>
-                    <button class="btn btn-success" type="submit">
+                    <button
+                      class="btn btn-success"
+                      type="submit"
+                      onclick="viewActivity()"
+                    >
                       Add Activity
                     </button>
                   </div>
