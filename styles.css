@@ -246,6 +246,9 @@ display describing such */
 .plan-side h1 {
   position: absolute;
   top: 8%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /* Activity side is the right side of the screen when you click on a day  
@@ -265,6 +268,20 @@ If there are no activities recorded, a message will display describing such */
 .activity-side h1 {
   position: absolute;
   top: 8%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.planned-activity-container {
+  display: flex;
+  height: 65%;
+  width: 90%;
+  border: 5px solid #f5f5f5;
+  background-color: #f5f5f5;
+  border-radius: 3%;
+  margin-top: 20%;
+  overflow: scroll;
 }
 
 /* Visible when user chooses to add a new activity */
@@ -280,17 +297,6 @@ If there are no activities recorded, a message will display describing such */
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.planned-activity-container {
-  display: block;
-  height: 65%;
-  width: 90%;
-  border: 5px solid #f5f5f5;
-  background-color: #f5f5f5;
-  border-radius: 3%;
-  margin-top: 20%;
-  overflow: scroll;
 }
 
 /* For each one of the planned activities that the user created */

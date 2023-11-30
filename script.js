@@ -15,6 +15,7 @@ const storedActivities = localStorage.getItem("plannedActivities");
 
 console.log(storedActivities);
 
+let selectedDate = new Date(); // Date that is selected by the user
 let activities = new Array();
 let activityDates = [[]];
 let data;
@@ -67,11 +68,11 @@ function initCalendar(activityDates) {
     ) {
       days += `<div class="day today" onclick="viewActivity(${i}, ${
         month + 1
-      })">${i}</div>`;
+      }, ${year})">${i}</div>`;
     } else {
       days += `<div class="day"  onclick="viewActivity(${i}, ${
         month + 1
-      })">${i}</div>`;
+      }, ${year})">${i}</div>`;
     }
   }
 
@@ -140,13 +141,24 @@ loadActivityData().then(() => {
 });
 
 // Navigates from the calendar view to the activity view for the selected date
-function viewActivity(selectedDate, selectedMonth) {
+function viewActivity(selectedDay, selectedMonth, selectedYear) {
   calendarView.style.display = "none";
   activityView.style.display = "block";
   if ((addActivityView.style.display = "block")) {
     addActivityView.style.display = "none";
   }
-  console.log(selectedDate, selectedMonth);
+  // use arguments to store the date in the selectedDate object
+  selectedDate.setFullYear(selectedYear, selectedMonth - 1, selectedDay);
+
+  /* localStorage only holds strings, so we'll need to create an array of plannedActivities by
+     parsing the string. Luckily, curly braces are good delimiters
+  */
+
+  /* Check if there is an activity (object) in local storage that has an activity date
+     that equals the selectedDate. If so, insert corresponding activities into planned-activity-container.
+     If not, display no planned activities message.
+  */
+  console.log(localStorage.getItem("plannedActivities"));
 }
 
 // Navigates from the activity view to the calendar view
@@ -168,19 +180,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const activityType = document.getElementById("activitySelection").value;
     const startTime = document.getElementById("startTimeSelection").value;
     const endTime = document.getElementById("endTimeSelection").value;
-    const date =
-      // Log the form data to the console
-      console.log("Activity Type:", activityType);
-    console.log("Start Time:", startTime);
-    console.log("End Time:", endTime);
+    const activityDate = selectedDate;
 
     const plannedActivities = getPlannedActivitiesFromStorage();
     plannedActivities.push({
       activityType: activityType,
       startTime: startTime,
       endTime: endTime,
+      activityDate: selectedDate,
     });
     savePlannedActivitiesToStorage(plannedActivities);
+    // After saving planned activity to storage, navigate back to activity screen of correct date
+    viewActivity();
   });
 });
 
