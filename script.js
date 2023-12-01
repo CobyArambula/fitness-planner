@@ -9,11 +9,14 @@ const calendar = document.querySelector(".calendar"),
   calendarView = document.querySelector(".calendar-view"),
   activityView = document.querySelector(".activity-view"),
   addActivityView = document.querySelector(".add-activity-view"),
-  addActivityForm = document.getElementById("addActivityForm");
+  addActivityForm = document.getElementById("addActivityForm"),
+  plannedActivityContainer = document.querySelector(
+    ".planned-activity-container"
+  );
 
-const storedActivities = localStorage.getItem("plannedActivities");
+const plannedActivities = localStorage.getItem("plannedActivities");
 
-console.log(storedActivities);
+let plannedActivitiesArray = JSON.parse(plannedActivities);
 
 let selectedDate = new Date(); // Date that is selected by the user
 let activities = new Array();
@@ -38,6 +41,22 @@ const months = [
   "November",
   "December",
 ];
+
+window.onload = function () {
+  var addActivityReloadStatus = sessionStorage.getItem("addActivityReload");
+  console.log(addActivityReloadStatus);
+  var selectedYear = sessionStorage.getItem("selectedYear");
+  var selectedMonth = sessionStorage.getItem("selectedMonth");
+  var selectedDate = sessionStorage.getItem("selectedDate");
+
+  if (addActivityReloadStatus) {
+    viewActivity(selectedYear, selectedMonth, selectedDate);
+    sessionStorage.removeItem("addActivityReload");
+    sessionStorage.removeItem("selectedYear");
+    sessionStorage.removeItem("selectedMonth");
+    sessionStorage.removeItem("selectedDate");
+  }
+};
 
 function initCalendar(activityDates) {
   const firstDay = new Date(year, month, 1); // First date of current month as Date object
@@ -66,13 +85,13 @@ function initCalendar(activityDates) {
       year === new Date().getFullYear() &&
       month === new Date().getMonth()
     ) {
-      days += `<div class="day today" onclick="viewActivity(${i}, ${
+      days += `<div class="day today" onclick="viewActivity(${year}, ${
         month + 1
-      }, ${year})">${i}</div>`;
+      }, ${i})">${i}</div>`;
     } else {
-      days += `<div class="day"  onclick="viewActivity(${i}, ${
+      days += `<div class="day"  onclick="viewActivity(${year}, ${
         month + 1
-      }, ${year})">${i}</div>`;
+      }, ${i})">${i}</div>`;
     }
   }
 
@@ -141,7 +160,7 @@ loadActivityData().then(() => {
 });
 
 // Navigates from the calendar view to the activity view for the selected date
-function viewActivity(selectedDay, selectedMonth, selectedYear) {
+function viewActivity(selectedYear, selectedMonth, selectedDay) {
   calendarView.style.display = "none";
   activityView.style.display = "block";
   if ((addActivityView.style.display = "block")) {
@@ -150,15 +169,32 @@ function viewActivity(selectedDay, selectedMonth, selectedYear) {
   // use arguments to store the date in the selectedDate object
   selectedDate.setFullYear(selectedYear, selectedMonth - 1, selectedDay);
 
-  /* localStorage only holds strings, so we'll need to create an array of plannedActivities by
-     parsing the string. Luckily, curly braces are good delimiters
-  */
-
   /* Check if there is an activity (object) in local storage that has an activity date
      that equals the selectedDate. If so, insert corresponding activities into planned-activity-container.
      If not, display no planned activities message.
   */
-  console.log(localStorage.getItem("plannedActivities"));
+
+  let plannedActivitesHTML = "";
+
+  plannedActivitiesArray.forEach((item) => {
+    if (
+      item.activityDate ==
+      selectedDate.getFullYear() +
+        "-" +
+        selectedDate.getMonth() +
+        "-" +
+        selectedDate.getDate()
+    ) {
+      plannedActivitesHTML += `
+        <div class="planned-activity-item">
+          <img src="/assets/functional-strength-training.png" />
+          <div>
+            <p>${item.activityType}&#10;${item.startTime} - ${item.endTime}</p>
+          </div>
+        </div>`;
+    }
+    plannedActivityContainer.innerHTML = plannedActivitesHTML;
+  });
 }
 
 // Navigates from the activity view to the calendar view
@@ -180,18 +216,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const activityType = document.getElementById("activitySelection").value;
     const startTime = document.getElementById("startTimeSelection").value;
     const endTime = document.getElementById("endTimeSelection").value;
-    const activityDate = selectedDate;
+    const activityDate =
+      selectedDate.getFullYear() +
+      "-" +
+      selectedDate.getMonth() +
+      "-" +
+      selectedDate.getDate();
 
     const plannedActivities = getPlannedActivitiesFromStorage();
     plannedActivities.push({
       activityType: activityType,
       startTime: startTime,
       endTime: endTime,
-      activityDate: selectedDate,
+      activityDate: activityDate,
     });
     savePlannedActivitiesToStorage(plannedActivities);
-    // After saving planned activity to storage, navigate back to activity screen of correct date
-    viewActivity();
+    /* After saving planned activity to localstorage, the container will appear empty unless you reload the page
+       After add activity button is pressed, the page needs to reload, then return to the correct activity screen
+       This will be done using session storage
+    */
+    console.log(selectedDate.getFullYear());
+    sessionStorage.setItem("addActivityReload", "true");
+    sessionStorage.setItem("selectedYear", selectedDate.getFullYear());
+    sessionStorage.setItem("selectedMonth", selectedDate.getMonth() + 1);
+    sessionStorage.setItem("selectedDate", selectedDate.getDate());
+    location.reload();
   });
 });
 
