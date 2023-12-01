@@ -331,5 +331,6 @@ If there are no activities recorded, a message will display describing such */
   white-space: pre-wrap;
 }
 
-.planned-activity-item p {
+.no-planned-activities-message {
+  display: none;
 }

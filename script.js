@@ -12,6 +12,9 @@ const calendar = document.querySelector(".calendar"),
   addActivityForm = document.getElementById("addActivityForm"),
   plannedActivityContainer = document.querySelector(
     ".planned-activity-container"
+  ),
+  noPlannedActivitiesMessage = document.querySelector(
+    ".no-planned-activities-message"
   );
 
 const plannedActivities = localStorage.getItem("plannedActivities");
@@ -173,9 +176,10 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
      that equals the selectedDate. If so, insert corresponding activities into planned-activity-container.
      If not, display no planned activities message.
   */
-
   let plannedActivitesHTML = "";
 
+  plannedActivityContainer.style.display = "none";
+  noPlannedActivitiesMessage.style.display = "block";
   plannedActivitiesArray.forEach((item) => {
     if (
       item.activityDate ==
@@ -185,6 +189,8 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
         "-" +
         selectedDate.getDate()
     ) {
+      plannedActivityContainer.style.display = "flex";
+      noPlannedActivitiesMessage.style.display = "none";
       plannedActivitesHTML += `
         <div class="planned-activity-item">
           <img src="/assets/functional-strength-training.png" />
@@ -192,8 +198,8 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
             <p>${item.activityType}&#10;${item.startTime} - ${item.endTime}</p>
           </div>
         </div>`;
+      plannedActivityContainer.innerHTML = plannedActivitesHTML;
     }
-    plannedActivityContainer.innerHTML = plannedActivitesHTML;
   });
 }
 
