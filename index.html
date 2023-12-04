@@ -66,49 +66,6 @@
 
               <div class="days"></div>
             </div>
-
-            <!-- <table class="table text-center table-striped">
-                    <thead>
-                      <tr>
-                        <th>Distance</th>
-                        <th>Duration</th>
-                        <th>Average HR</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>*distance*</td>
-                        <td>*duration*</td>
-                        <td>*avg hr*</td>
-                      </tr>
-                    </tbody>
-                    <thead>
-                      <tr>
-                        <th>Speed</th>
-                        <th>Step Cadence</th>
-                        <th>Step Count</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>*speed*</td>
-                        <td>*step cadence*</td>
-                        <td>*step count*</td>
-                      </tr>
-                    </tbody>
-                    <thead>
-                      <tr>
-                        <th>Temperature</th>
-                        <th>Elevation</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>*temperature*</td>
-                        <td>*elevation*</td>
-                      </tr>
-                    </tbody>
-                  </table> -->
           </div>
         </div>
       </div>
@@ -151,7 +108,71 @@
               <div class="vr"></div>
               <div class="activity-side">
                 <h1 class="display-6">Recorded Activities</h1>
-                <p>Activities recorded on Apple Watch will appear here.</p>
+                <p class="no-recorded-activities-message">
+                  Activities recorded on Apple Watch will appear here.
+                </p>
+                <!-- Start Recorded Activity Template -->
+                <div class="recorded-activity-container">
+                  <div
+                    class="recorded-activity-item"
+                    onclick="toggleRecordedActivityInfo()"
+                  >
+                    <div class="recorded-activity-outer-info">
+                      <img src="/assets/functional-strength-training.png" />
+                      <p>Title&#10;Start Time - End Time</p>
+                      <i
+                        class="fa-solid fa-chevron-up"
+                        id="recordedActivityExpandChevron"
+                      ></i>
+                    </div>
+                    <table
+                      class="table text-center table-striped"
+                      id="recordedActivityInnerInfo"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Distance</th>
+                          <th>Duration</th>
+                          <th>Average HR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>*distance*</td>
+                          <td>*duration*</td>
+                          <td>*avg hr*</td>
+                        </tr>
+                      </tbody>
+                      <thead>
+                        <tr>
+                          <th>Speed</th>
+                          <th>Step Cadence</th>
+                          <th>Step Count</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>*speed*</td>
+                          <td>*step cadence*</td>
+                          <td>*step count*</td>
+                        </tr>
+                      </tbody>
+                      <thead>
+                        <tr>
+                          <th>Temperature</th>
+                          <th>Elevation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>*temperature*</td>
+                          <td>*elevation*</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- End Recorded Activity Template -->
               </div>
             </div>
           </div>

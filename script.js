@@ -15,6 +15,12 @@ const calendar = document.querySelector(".calendar"),
   ),
   noPlannedActivitiesMessage = document.querySelector(
     ".no-planned-activities-message"
+  ),
+  recordedActivityToggle = document.getElementById(
+    "recordedActivityExpandChevron"
+  ),
+  recordedActivityInnerInfo = document.getElementById(
+    "recordedActivityInnerInfo"
   );
 
 const plannedActivities = localStorage.getItem("plannedActivities");
@@ -214,6 +220,18 @@ function viewAddActivity() {
   activityView.style.display = "none";
   addActivityView.style.display = "block";
 }
+
+// Toggles all info for a recorded activity
+function toggleRecordedActivityInfo() {
+  if (recordedActivityInnerInfo.style.display == "none") {
+    recordedActivityInnerInfo.style.display = "block";
+    recordedActivityToggle.style.rotate = "0";
+  } else {
+    recordedActivityInnerInfo.style.display = "none";
+  }
+}
+
+toggleRecordedActivityInfo();
 
 document.addEventListener("DOMContentLoaded", function () {
   addActivityForm.addEventListener("submit", function (event) {
