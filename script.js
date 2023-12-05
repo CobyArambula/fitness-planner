@@ -199,7 +199,7 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
       noPlannedActivitiesMessage.style.display = "none";
       plannedActivitesHTML += `
         <div class="planned-activity-item">
-          <img src="/assets/functional-strength-training.png" />
+          <img src="${getActivityIcon(item.activityType)}" />
           <div>
             <p>${item.activityType}&#10;${item.startTime} - ${item.endTime}</p>
           </div>
@@ -207,6 +207,54 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
       plannedActivityContainer.innerHTML = plannedActivitesHTML;
     }
   });
+}
+
+// Returns a string of the directory of the correct activity icon
+function getActivityIcon(activityType) {
+  switch (activityType) {
+    case "Cooldown":
+      return "/assets/cooldown.png";
+    case "Core Training":
+      return "/assets/core-training.png";
+    case "Cycle":
+      return "/assets/cycle.png";
+    case "Dance":
+      return "/assets/dance.png";
+    case "Elliptical":
+      return "/assets/elliptical.png";
+    case "Functional Strength Training":
+      return "/assets/functional-strength-training.png";
+    case "HIIT":
+      return "/assets/hiit.png";
+    case "Hiking":
+      return "/assets/hiking.png";
+    case "Kickboxing":
+      return "/assets/kickboxing.png";
+    case "Multisport":
+      return "/assets/multisport.png";
+    case "Other":
+      return "/assets/other.png";
+    case "Pilates":
+      return "/assets/pilates.png";
+    case "Rower":
+      return "/assets/rower.png";
+    case "Run":
+      return "/assets/run.png";
+    case "Stair Stepper":
+      return "/assets/stair-stepper.png";
+    case "Swimming":
+      return "/assets/swimming.png";
+    case "Tai Chi":
+      return "/assets/tai-chi.png";
+    case "Walk":
+      return "/assets/walk.png";
+    case "Wheelchair":
+      return "/assets/wheelchair.png";
+    case "Yoga":
+      return "/assets/yoga.png";
+    default:
+      return "/assets/functional-strength-training";
+  }
 }
 
 // Navigates from the activity view to the calendar view
