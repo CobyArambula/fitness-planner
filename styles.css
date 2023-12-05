@@ -357,11 +357,11 @@ If there are no activities recorded, a message will display describing such */
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  align-self: center;
   overflow: auto;
   min-width: 80%;
   min-height: 17%;
   height: auto;
-  margin: 5%;
 }
 
 .recorded-activity-item hr {
