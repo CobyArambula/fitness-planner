@@ -222,16 +222,16 @@ function viewAddActivity() {
 }
 
 // Toggles all info for a recorded activity
-function toggleRecordedActivityInfo() {
-  if (recordedActivityInnerInfo.style.display == "none") {
-    recordedActivityInnerInfo.style.display = "block";
-    recordedActivityToggle.style.rotate = "0";
-  } else {
-    recordedActivityInnerInfo.style.display = "none";
-  }
-}
+// function toggleRecordedActivityInfo() {
+//   if (recordedActivityInnerInfo.style.display == "none") {
+//     recordedActivityInnerInfo.style.display = "block";
+//     recordedActivityToggle.style.rotate = "0";
+//   } else {
+//     recordedActivityInnerInfo.style.display = "none";
+//   }
+// }
 
-toggleRecordedActivityInfo();
+// toggleRecordedActivityInfo();
 
 document.addEventListener("DOMContentLoaded", function () {
   addActivityForm.addEventListener("submit", function (event) {

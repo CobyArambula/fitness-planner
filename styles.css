@@ -357,12 +357,15 @@ If there are no activities recorded, a message will display describing such */
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  overflow: auto;
   min-width: 80%;
   min-height: 17%;
   height: auto;
-  margin: 2%;
-  transition: height 2s ease;
-  cursor: pointer;
+  margin: 5%;
+}
+
+.recorded-activity-item hr {
+  margin-top: -2%;
 }
 
 .recorded-activity-outer-info {
@@ -376,8 +379,10 @@ If there are no activities recorded, a message will display describing such */
 }
 
 #recordedActivityInnerInfo {
-  display: none;
+  display: block;
   height: auto;
+  justify-content: center;
+  margin-top: -5%;
 }
 
 .recorded-activity-item img {
