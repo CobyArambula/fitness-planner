@@ -21,8 +21,6 @@ app.get("/", (req, res) => {
 app.get("/getDynamoData", async (req, res) => {
   try {
     const command = new ScanCommand({
-      ProjectionExpression: "#Id",
-      ExpressionAttributeNames: { "#Id": "Id" },
       TableName: "activities",
     });
 
