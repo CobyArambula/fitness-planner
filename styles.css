@@ -336,7 +336,7 @@ If there are no activities recorded, a message will display describing such */
 }
 
 .no-recorded-activities-message {
-  display: none;
+  display: block;
 }
 
 .recorded-activity-container {

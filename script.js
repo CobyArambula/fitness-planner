@@ -53,7 +53,6 @@ const months = [
 
 window.onload = function () {
   var addActivityReloadStatus = sessionStorage.getItem("addActivityReload");
-  console.log(addActivityReloadStatus);
   var selectedYear = sessionStorage.getItem("selectedYear");
   var selectedMonth = sessionStorage.getItem("selectedMonth");
   var selectedDate = sessionStorage.getItem("selectedDate");
@@ -95,6 +94,11 @@ function initCalendar(activityDates) {
       month === new Date().getMonth()
     ) {
       days += `<div class="day today" onclick="viewActivity(${year}, ${
+        month + 1
+      }, ${i})">${i}</div>`;
+    } else if (isActivity(new Date(year, month, i))) {
+      // if activity is planned for day, add event class
+      days += `<div class="day event" onclick="viewActivity(${year}, ${
         month + 1
       }, ${i})">${i}</div>`;
     } else {
@@ -156,7 +160,7 @@ function getActivityDates() {
     const regex = /(\d{4})-(\d{2})-(\d{2})/;
     const match = regex.exec(activityString);
     const year = match[1];
-    const month = match[2];
+    const month = match[2] - 1;
     const day = match[3];
     const activityDate = new Date(year, month, day);
     activityDates.push(activityDate);
@@ -167,6 +171,14 @@ loadActivityData().then(() => {
   getActivityDates();
   initCalendar(activityDates);
 });
+
+// Checks if date being rendered has a corresponding activity. If so, return true
+function isActivity(renderedDate) {
+  const renderedDateString = renderedDate.toString();
+  return activityDates.some(
+    (activityDate) => activityDate.toString() === renderedDateString
+  );
+}
 
 // Navigates from the calendar view to the activity view for the selected date
 function viewActivity(selectedYear, selectedMonth, selectedDay) {
@@ -186,27 +198,29 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
 
   plannedActivityContainer.style.display = "none";
   noPlannedActivitiesMessage.style.display = "block";
-  plannedActivitiesArray.forEach((item) => {
-    if (
-      item.activityDate ==
-      selectedDate.getFullYear() +
-        "-" +
-        selectedDate.getMonth() +
-        "-" +
-        selectedDate.getDate()
-    ) {
-      plannedActivityContainer.style.display = "flex";
-      noPlannedActivitiesMessage.style.display = "none";
-      plannedActivitesHTML += `
+  if (plannedActivitiesArray) {
+    plannedActivitiesArray.forEach((item) => {
+      if (
+        item.activityDate ==
+        selectedDate.getFullYear() +
+          "-" +
+          selectedDate.getMonth() +
+          "-" +
+          selectedDate.getDate()
+      ) {
+        plannedActivityContainer.style.display = "flex";
+        noPlannedActivitiesMessage.style.display = "none";
+        plannedActivitesHTML += `
         <div class="planned-activity-item">
           <img src="${getActivityIcon(item.activityType)}" />
           <div>
             <p>${item.activityType}&#10;${item.startTime} - ${item.endTime}</p>
           </div>
         </div>`;
-      plannedActivityContainer.innerHTML = plannedActivitesHTML;
-    }
-  });
+        plannedActivityContainer.innerHTML = plannedActivitesHTML;
+      }
+    });
+  }
 }
 
 // Returns a string of the directory of the correct activity icon
@@ -269,18 +283,6 @@ function viewAddActivity() {
   addActivityView.style.display = "block";
 }
 
-// Toggles all info for a recorded activity
-// function toggleRecordedActivityInfo() {
-//   if (recordedActivityInnerInfo.style.display == "none") {
-//     recordedActivityInnerInfo.style.display = "block";
-//     recordedActivityToggle.style.rotate = "0";
-//   } else {
-//     recordedActivityInnerInfo.style.display = "none";
-//   }
-// }
-
-// toggleRecordedActivityInfo();
-
 document.addEventListener("DOMContentLoaded", function () {
   addActivityForm.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent default form submission
@@ -307,7 +309,6 @@ document.addEventListener("DOMContentLoaded", function () {
        After add activity button is pressed, the page needs to reload, then return to the correct activity screen
        This will be done using session storage
     */
-    console.log(selectedDate.getFullYear());
     sessionStorage.setItem("addActivityReload", "true");
     sessionStorage.setItem("selectedYear", selectedDate.getFullYear());
     sessionStorage.setItem("selectedMonth", selectedDate.getMonth() + 1);
