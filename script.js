@@ -21,6 +21,12 @@ const calendar = document.querySelector(".calendar"),
   ),
   recordedActivityInnerInfo = document.getElementById(
     "recordedActivityInnerInfo"
+  ),
+  recordedActivityContainer = document.querySelector(
+    ".recorded-activity-container"
+  ),
+  noRecordedActivitiesMessage = document.querySelector(
+    ".no-recorded-activities-message"
   );
 
 const plannedActivities = localStorage.getItem("plannedActivities");
@@ -170,7 +176,7 @@ function getActivityDates() {
 loadActivityData().then(() => {
   getActivityDates();
   initCalendar(activityDates);
-  console.log(activities);
+  console.log(activityDates);
 });
 
 // Checks if date being rendered has a corresponding activity. If so, return true
@@ -191,9 +197,10 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
   // use arguments to store the date in the selectedDate object
   selectedDate.setFullYear(selectedYear, selectedMonth - 1, selectedDay);
 
-  /* Check if there is an activity (object) in local storage that has an activity date
-     that equals the selectedDate. If so, insert corresponding activities into planned-activity-container.
-     If not, display no planned activities message.
+  /* 
+    Check if there is an activity (object) in local storage that has an activity date
+    that equals the selectedDate. If so, insert corresponding activities into planned-activity-container.
+    If not, display no planned activities message.
   */
   let plannedActivitiesHTML = "";
 
@@ -222,6 +229,14 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
       }
     });
   }
+
+  /* 
+    Check if there's an activity(ies) in the activies array (from database) that correspond with the current date
+    If so, display activity(ies). If not, display no-recorded-activities-message
+  */
+  let recordedActivitiesHTML = "";
+  recordedActivityContainer.style.display = "none";
+  noRecordedActivitiesMessage.style.display = "block";
 }
 
 // Returns a string of the directory of the correct activity icon
