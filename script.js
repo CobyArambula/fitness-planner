@@ -170,6 +170,7 @@ function getActivityDates() {
 loadActivityData().then(() => {
   getActivityDates();
   initCalendar(activityDates);
+  console.log(activities);
 });
 
 // Checks if date being rendered has a corresponding activity. If so, return true
@@ -194,7 +195,7 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
      that equals the selectedDate. If so, insert corresponding activities into planned-activity-container.
      If not, display no planned activities message.
   */
-  let plannedActivitesHTML = "";
+  let plannedActivitiesHTML = "";
 
   plannedActivityContainer.style.display = "none";
   noPlannedActivitiesMessage.style.display = "block";
@@ -210,14 +211,14 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
       ) {
         plannedActivityContainer.style.display = "flex";
         noPlannedActivitiesMessage.style.display = "none";
-        plannedActivitesHTML += `
+        plannedActivitiesHTML += `
         <div class="planned-activity-item">
           <img src="${getActivityIcon(item.activityType)}" />
           <div>
             <p>${item.activityType}&#10;${item.startTime} - ${item.endTime}</p>
           </div>
         </div>`;
-        plannedActivityContainer.innerHTML = plannedActivitesHTML;
+        plannedActivityContainer.innerHTML = plannedActivitiesHTML;
       }
     });
   }
