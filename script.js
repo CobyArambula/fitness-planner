@@ -95,6 +95,16 @@ function initCalendar(activityDates) {
   for (let i = 1; i <= lastDate; i++) {
     // if day is today add class today
     if (
+      // activity is on current day, add today and event class
+      i === new Date().getDate() &&
+      year === new Date().getFullYear() &&
+      month === new Date().getMonth() &&
+      isActivity(new Date(year, month, i))
+    ) {
+      days += `<div class="day today event" onclick="viewActivity(${year}, ${
+        month + 1
+      }, ${i})">${i}</div>`;
+    } else if (
       i === new Date().getDate() &&
       year === new Date().getFullYear() &&
       month === new Date().getMonth()
@@ -102,8 +112,18 @@ function initCalendar(activityDates) {
       days += `<div class="day today" onclick="viewActivity(${year}, ${
         month + 1
       }, ${i})">${i}</div>`;
+    } else if (
+      // activity is on current day, add today and event class
+      i === new Date().getDate() &&
+      year === new Date().getFullYear() &&
+      month === new Date().getMonth() &&
+      isActivity(new Date(year, month, i))
+    ) {
+      days += `<div class="day today event" onclick="viewActivity(${year}, ${
+        month + 1
+      }, ${i})">${i}</div>`;
     } else if (isActivity(new Date(year, month, i))) {
-      // if activity is planned for day, add event class
+      // activity is on this day, add event class
       days += `<div class="day event" onclick="viewActivity(${year}, ${
         month + 1
       }, ${i})">${i}</div>`;
