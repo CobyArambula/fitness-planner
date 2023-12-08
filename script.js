@@ -196,7 +196,6 @@ function getActivityDates() {
 loadActivityData().then(() => {
   getActivityDates();
   initCalendar(activityDates);
-  console.log(activityDates);
 });
 
 // Checks if date being rendered has a corresponding activity. If so, return true
@@ -257,6 +256,69 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
   let recordedActivitiesHTML = "";
   recordedActivityContainer.style.display = "none";
   noRecordedActivitiesMessage.style.display = "block";
+  if (activityDates) {
+    activityDates.forEach((activityDate) => {
+      if (
+        activityDate.toString().split(` `, 4).toString() ==
+        selectedDate.toString().split(` `, 4).toString()
+      ) {
+        recordedActivityContainer.style.display = "flex";
+        noRecordedActivitiesMessage.style.display = "none";
+        recordedActivitiesHTML += `
+        <div class="recorded-activity-item">
+          <div class="recorded-activity-outer-info">
+            <img src="/assets/functional-strength-training.png" />
+            <p>Title&#10;Start Time - End Time</p>
+          </div>
+          <hr />
+          <table class="table text-center table-striped" id="recordedActivityInnerInfo">
+            <thead>
+              <tr>
+                <th>Distance</th>
+                <th>Duration</th>
+                <th>Average HR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>*distance*</td>
+                <td>*duration*</td>
+                <td>*avg hr*</td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th>Speed</th>
+                <th>Step Cadence</th>
+                <th>Step Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>*speed*</td>
+                <td>*step cadence*</td>
+                <td>*step count*</td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th>Temperature</th>
+                <th>Elevation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>*temperature*</td>
+                <td>*elevation*</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        `;
+        recordedActivityContainer.innerHTML = recordedActivitiesHTML;
+      }
+    });
+  }
 }
 
 // Returns a string of the directory of the correct activity icon
