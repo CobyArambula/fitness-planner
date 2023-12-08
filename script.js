@@ -262,6 +262,9 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
         activityDate.toString().split(` `, 4).toString() ==
         selectedDate.toString().split(` `, 4).toString()
       ) {
+        // Get activities for corresponding activity date
+        activityResult = getActivityFromActivityDate(activityDate);
+
         recordedActivityContainer.style.display = "flex";
         noRecordedActivitiesMessage.style.display = "none";
         recordedActivitiesHTML += `
@@ -319,6 +322,20 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
       }
     });
   }
+}
+
+// Get activity for corresponding activity date
+function getActivityFromActivityDate(activityDate) {
+  ret = []; // an array of recorded activities for this activityDate
+  activities.forEach((activity) => {
+    if (
+      // changing format of activityDate to match that of date in activity start format
+      activityDate.toISOString().split("T")[0] == activity.start.split(" ")[0]
+    ) {
+      ret.push(activity);
+    }
+  });
+  return ret;
 }
 
 // Returns a string of the directory of the correct activity icon
