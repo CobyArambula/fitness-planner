@@ -253,7 +253,8 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
     Check if there's an activity(ies) in the activies array (from database) that correspond with the current date
     If so, display activity(ies). If not, display no-recorded-activities-message
   */
-  let recordedActivitiesHTML = "";
+  let recordedActivitiesUpperHTML = "";
+  let recordedActivitiesLowerHTML = "";
   recordedActivityContainer.style.display = "none";
   noRecordedActivitiesMessage.style.display = "block";
   if (activityDates) {
@@ -267,58 +268,22 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
 
         recordedActivityContainer.style.display = "flex";
         noRecordedActivitiesMessage.style.display = "none";
-        recordedActivitiesHTML += `
+        activityResult.forEach((activity) => {
+          console.log(activity);
+          recordedActivitiesUpperHTML += `
         <div class="recorded-activity-item">
           <div class="recorded-activity-outer-info">
-            <img src="/assets/functional-strength-training.png" />
-            <p>Title&#10;Start Time - End Time</p>
+            <img src="${getActivityIcon(activity.name)}" />
+            <p>${activity.name}&#10;${activity.start
+            .split(" ")[1]
+            .slice(0, 5)} - ${activity.end.split(" ")[1].slice(0, 5)}</p>
           </div>
           <hr />
-          <table class="table text-center table-striped" id="recordedActivityInnerInfo">
-            <thead>
-              <tr>
-                <th>Distance</th>
-                <th>Duration</th>
-                <th>Average HR</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>*distance*</td>
-                <td>*duration*</td>
-                <td>*avg hr*</td>
-              </tr>
-            </tbody>
-            <thead>
-              <tr>
-                <th>Speed</th>
-                <th>Step Cadence</th>
-                <th>Step Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>*speed*</td>
-                <td>*step cadence*</td>
-                <td>*step count*</td>
-              </tr>
-            </tbody>
-            <thead>
-              <tr>
-                <th>Temperature</th>
-                <th>Elevation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>*temperature*</td>
-                <td>*elevation*</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
         `;
-        recordedActivityContainer.innerHTML = recordedActivitiesHTML;
+          recordedActivitiesLowerHTML = populateActivityTable(activity);
+        });
+        recordedActivityContainer.innerHTML =
+          recordedActivitiesUpperHTML + recordedActivitiesLowerHTML;
       }
     });
   }
@@ -328,6 +293,7 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
 function getActivityFromActivityDate(activityDate) {
   ret = []; // an array of recorded activities for this activityDate
   activities.forEach((activity) => {
+    console.log(activity);
     if (
       // changing format of activityDate to match that of date in activity start format
       activityDate.toISOString().split("T")[0] == activity.start.split(" ")[0]
@@ -335,6 +301,74 @@ function getActivityFromActivityDate(activityDate) {
       ret.push(activity);
     }
   });
+  return ret;
+}
+
+// Dynamically create HTML based on the attributes present for the current activity
+function populateActivityTable(activity) {
+  ret = `<table class="table text-center table-striped" id="recordedActivityInnerInfo">`;
+  // Remove name, start, end, and Id values from activityKeys array
+  Object.keys(activity).forEach((key) => {
+    switch (key) {
+      case "name":
+      case "start":
+      case "end":
+      case "Id":
+        delete activity[key];
+        break;
+      default:
+        break;
+    }
+  });
+  tableHeadingGroup = ""; // contains <th> tags, number of tags depends on number of remaining key:value pairs
+  tableBodyGroup = ""; // contains <td> tags, number of tags depends on number of remaining key:value pairs
+  newRow = -1; // if newRow == 3, add new row to table via injection of HTML and reset to 0
+
+  for (var i = 0; i < Object.keys(activity).length; i++) {
+    if (newRow == 2) {
+      ret += `
+        <thead>
+          <tr>
+            ${tableHeadingGroup}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            ${tableBodyGroup}
+          </tr>
+        </tbody>
+      `;
+      newRow = -1;
+      tableHeadingGroup = "";
+      tableBodyGroup = "";
+    }
+    tableHeadingGroup += `<th>${Object.keys(activity)[i].toString()}</th>`;
+    /*
+    // Most values consist of arrays to hold multiple pieces of data (mainly qty/units)
+    // Id, name, start, and end are the only keys that have one value
+    // Every other key has 2 values, qty and units
+    // The only exception is elevation, which has 3 values, ascent, descent, and units
+    // We can make a special condition for elevation, and treat all other keys as having 2 values
+    */
+
+    tableBodyGroup += `<td>${Object.values(activity)[i]}</td>`;
+    newRow++;
+  }
+  if (newRow == 1 || newRow == 2) {
+    ret += `
+        <thead>
+          <tr>
+            ${tableHeadingGroup}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            ${tableBodyGroup}
+          </tr>
+        </tbody>
+      `;
+  }
+  ret += "</table></div>";
   return ret;
 }
 
@@ -368,6 +402,7 @@ function getActivityIcon(activityType) {
     case "Rower":
       return "/assets/rower.png";
     case "Run":
+    case "Running":
       return "/assets/run.png";
     case "Stair Stepper":
       return "/assets/stair-stepper.png";
@@ -382,7 +417,7 @@ function getActivityIcon(activityType) {
     case "Yoga":
       return "/assets/yoga.png";
     default:
-      return "/assets/functional-strength-training";
+      return "/assets/functional-strength-training.png";
   }
 }
 
