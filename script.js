@@ -269,7 +269,6 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
         recordedActivityContainer.style.display = "flex";
         noRecordedActivitiesMessage.style.display = "none";
         activityResult.forEach((activity) => {
-          console.log(activity);
           recordedActivitiesUpperHTML += `
         <div class="recorded-activity-item">
           <div class="recorded-activity-outer-info">
@@ -293,7 +292,6 @@ function viewActivity(selectedYear, selectedMonth, selectedDay) {
 function getActivityFromActivityDate(activityDate) {
   ret = []; // an array of recorded activities for this activityDate
   activities.forEach((activity) => {
-    console.log(activity);
     if (
       // changing format of activityDate to match that of date in activity start format
       activityDate.toISOString().split("T")[0] == activity.start.split(" ")[0]
@@ -306,25 +304,17 @@ function getActivityFromActivityDate(activityDate) {
 
 // Dynamically create HTML based on the attributes present for the current activity
 function populateActivityTable(activity) {
+  // Create an array of key/value pairs excluding name, start, end, and Id keys
+  const filteredActivity = Object.entries(activity).filter(
+    ([key]) => !["name", "start", "end", "Id"].includes(key)
+  );
   ret = `<table class="table text-center table-striped" id="recordedActivityInnerInfo">`;
-  // Remove name, start, end, and Id values from activityKeys array
-  Object.keys(activity).forEach((key) => {
-    switch (key) {
-      case "name":
-      case "start":
-      case "end":
-      case "Id":
-        delete activity[key];
-        break;
-      default:
-        break;
-    }
-  });
+
   tableHeadingGroup = ""; // contains <th> tags, number of tags depends on number of remaining key:value pairs
   tableBodyGroup = ""; // contains <td> tags, number of tags depends on number of remaining key:value pairs
   newRow = -1; // if newRow == 3, add new row to table via injection of HTML and reset to 0
 
-  for (var i = 0; i < Object.keys(activity).length; i++) {
+  for (var i = 0; i < filteredActivity.length; i++) {
     if (newRow == 2) {
       ret += `
         <thead>
@@ -342,16 +332,9 @@ function populateActivityTable(activity) {
       tableHeadingGroup = "";
       tableBodyGroup = "";
     }
-    tableHeadingGroup += `<th>${Object.keys(activity)[i].toString()}</th>`;
-    /*
-    // Most values consist of arrays to hold multiple pieces of data (mainly qty/units)
-    // Id, name, start, and end are the only keys that have one value
-    // Every other key has 2 values, qty and units
-    // The only exception is elevation, which has 3 values, ascent, descent, and units
-    // We can make a special condition for elevation, and treat all other keys as having 2 values
-    */
-
-    tableBodyGroup += `<td>${Object.values(activity)[i]}</td>`;
+    const [key, value] = filteredActivity[i];
+    tableHeadingGroup += `<th>${key}</th>`;
+    tableBodyGroup += `<td>${value}</td>`;
     newRow++;
   }
   if (newRow == 1 || newRow == 2) {
