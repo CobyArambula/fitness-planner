@@ -1,7 +1,7 @@
 # fitness-planner
 
 # Overview
-A web application for planning and tracking fitness activities recorded on Apple Watch devices. The app includes a calendar view that provides an overview of days in which activities have been recorded on, as well as an activity view that allows user to view recorded activities, and plan new activities.
+FitnessPlanner.js is a web application for planning and tracking fitness activities recorded on Apple Watch devices. The app includes a calendar view that provides an overview of days in which activities have been recorded on, as well as an activity view that allows user to view recorded activities, and plan new activities.
 
 # Calendar View
 The calendar view displays planned activities for each day. Activities are denoted with a bar icon, and clicking on a date provides additional details in the activity view.
